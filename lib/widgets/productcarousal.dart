@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loc_coupon/models/product_model.dart';
+import 'package:loc_coupon/screens/CartScreen.dart';
 
 class ProductCarousal extends StatefulWidget {
   final String title;
@@ -45,7 +46,7 @@ class _ProductCarousalState extends State<ProductCarousal> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  '\$${widget.products[index].price.toStringAsFixed(2)}',
+                  'Rs. ${widget.products[index].price.toStringAsFixed(2)}',
                   style: TextStyle(
                       color: Colors.orange,
                       fontSize: 18,

@@ -4,23 +4,37 @@ import 'package:loc_coupon/models/product_model.dart';
 import 'package:loc_coupon/screens/CartScreen.dart';
 import 'package:loc_coupon/widgets/productcarousal.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+//List<Product> cart = [];
+
 class _HomeScreenState extends State<HomeScreen> {
   //const HomeScreen({required Key key}) : super(key: key);
   int len = 0;
-  void cartUp (){
+  void cartUp ()async{
     setState(() {
       len++;
       print(len);
     });
+    String url = 'https://192.168.2.51/createCoupon';
+    var response = await http.get(Uri.parse(url),); //POST REQ with body
+    print(response.body);
+    /*var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: "Ping"
+    );*/
+    //print("${response.statusCode}");
+    //print("${response.body}");
   }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(top: 10, right: 20),
                 child: InkResponse(
                   onTap: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (_)=> CartScreen()));
+                    Navigator.push(context,MaterialPageRoute(builder: (_)=> CartScreen(cart: cart,)));
                     },
                   child: Icon(
                     Icons.shopping_basket,
@@ -182,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 15,),
           EmbededComponent(),
           SizedBox(height: 15,),
-          ProductCarousal(title: "Amazon Prime Deals",products: products,cartUp: cartUp),
+          ProductCarousal(title: "Deals of the Day!",products: products,cartUp: cartUp),
           ProductCarousal(title: "Popular Books",products: books,cartUp: cartUp),
 
         ],
