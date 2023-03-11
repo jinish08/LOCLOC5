@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "../components/Banner";
+import Coupon from "../components/Coupon";
 import CouponCard from "../components/CouponCard";
 import Navbar from "../components/Navbar";
 
@@ -13,7 +14,7 @@ const home = () => {
           Coupons
         </p>
         <div className="pt-[2%] flex items-center justify-center gap-8 flex-wrap w-[60vw]">
-          <CouponCard />
+          <Coupon />
           <CouponCard />
           <CouponCard />
           <CouponCard />
