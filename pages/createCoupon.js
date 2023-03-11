@@ -20,7 +20,7 @@ const createCoupon = () => {
         <div className="w-full mt-[-5%] flex items-center justify-center">
           <ul className="steps steps-vertical w-full lg:steps-horizontal">
             <li className="step step-primary">Register</li>
-            <li className="step step-primary">Choose plan</li>
+            <li className="step">Choose plan</li>
             <li className="step">Purchase</li>
             <li className="step">Receive Product</li>
             <li className="step">Receive Product</li>
