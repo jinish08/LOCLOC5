@@ -41,10 +41,10 @@ const Hero = () => {
                 <div
                     class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-                        <img
-                            src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                            class="w-full"
-                            alt="Phone image" />
+                    <div class="relative w-[330px] h-[640px] m-auto rounded-[36px] border-y-[60px] border-[16px] border-[solid] before:content-[''] before:block before:w-[60px] before:h-[5px] before:absolute before:top-[-30px] before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-[10px] before:left-2/4 after:content-[''] after:block after:w-[35px] after:h-[35px] after:absolute after:bottom-[-65px] after:-translate-x-2/4 after:-translate-y-2/4 after:rounded-[50%] after:left-2/4 before:bg-[#333] after:bg-[#333]">
+                      <div class="w-[330px] h-[640px] ">
+                      </div>
+                    </div>
                     </div>
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
                         <form>
