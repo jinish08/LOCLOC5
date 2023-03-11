@@ -2,6 +2,7 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import { UserAuth, UserContext } from "../context/AuthContext";
 import { useContext } from "react";
+import Hero from "../components/Hero";
 import Calender from "../components/calendar/Calender";
 export default function Home() {
   const { createUser } = useContext(UserContext);
@@ -25,8 +26,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-
-      {/* <button onClick={makeNewUserUsingFirebaseAuthContext}>Click</button> */}
+      <Hero />
     </div>
   );
 }
