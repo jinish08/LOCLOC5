@@ -1,12 +1,14 @@
-import { AuthContextProvider } from '../context/AuthContext'
-import '../styles/globals.css'
-
+import { AuthContextProvider } from "../context/AuthContext";
+import "../styles/globals.css";
+import { RecoilRoot } from "recoil";
 function MyApp({ Component, pageProps }) {
   return (
-  <AuthContextProvider>
-    <Component {...pageProps} />
-  </AuthContextProvider>
-  )
+    <AuthContextProvider>
+      <RecoilRoot>
+        <Component {...pageProps} />
+      </RecoilRoot>
+    </AuthContextProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
