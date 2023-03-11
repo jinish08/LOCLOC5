@@ -9,12 +9,15 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        banner: "url('/public/Rectangle.png)",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["corporate"
-    ],
-    darkMode:"corporate"
+    themes: ["corporate"],
+    darkMode: "corporate",
   },
 };
