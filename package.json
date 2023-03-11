@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
+    "classnames": "^2.3.2",
     "daisyui": "^2.51.3",
     "firebase": "^9.17.2",
     "framer-motion": "^10.2.4",
@@ -22,6 +23,7 @@
     "react-form-stepper": "^2.0.3",
     "react-horizontal-timeline": "^1.5.3",
     "react-icons": "^4.8.0",
+    "react-slider": "^2.0.4",
     "reactflow": "^11.5.6",
     "recoil": "^0.7.7",
     "rulejs": "^0.3.0",

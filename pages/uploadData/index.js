@@ -1,15 +1,34 @@
-import { getDatabase, onValue, ref, set } from 'firebase/database';
-import React, { useState } from 'react'
+import { child, getDatabase, onValue, push, ref, set, update } from 'firebase/database';
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../../context/AuthContext';
 const XLSX = require('xlsx');
 
 const UploadData = () => {
 
     const [jsonData, setJsonData] = useState([])
 
+    const {user} = useContext(UserContext)
+
+    console.log(user.email?.split('@')[0])
+
     const uploadData = () => {
         const db = getDatabase()
-        set(ref(db, 'user/'), {
-          data:jsonData
+        // set(ref(db, 'org/'+user.email.split('@')[0]), {
+        //   data:jsonData
+        // })
+
+        jsonData.map((item) => {
+
+          const postData = item;
+      
+          // Get a key for a new Post.
+          // const newPostKey = push(child(ref(db), 'org/'+user.email?.split('@')[0])).key;
+        
+          // Write the new post's data simultaneously in the posts list and the user's post list.
+          const updates = {};
+          updates['org/'+ user.email?.split('@')[0] + "/users/" + postData.Username] = postData;
+        
+          update(ref(db), updates);
         })
     }
 

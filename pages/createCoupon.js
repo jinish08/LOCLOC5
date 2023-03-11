@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Side from "../assets/create.png";
 import { useRouter } from "next/router";
-const createCoupon = () => {
+import { UserContext } from "../context/AuthContext";
+import RangeSlider from "../components/RangeSlider"
+const CreateCoupon = () => {
   const router = useRouter();
   const [type, setType] = useState("Select type of Coupon");
-  const handleTitle = (e) => {
-    console.log(e.target.value);
-  };
+  const {userData,setUser,handleInputChange} = useContext(UserContext)
   const handleDropDownSelect = (e) => {
-    console.log(e.target.value);
     setType(e.target.value);
+    const data = userData
+    data.couponType = e.target.value
+    setUser({...data})
   };
+
   const handleContinue = () => {
-    router.push("/definingRules");
+    if(type === "Dynamic Coupon"){
+      router.push("/dynamicCoupon")
+    }
+    else{
+      router.push("/definingRules");
+    }
   };
+
   return (
     <div className="bg-white h-screen flex w-full">
       <div className="flex flex-col items-start h-[70vh] mt-[10%] w-[70vw]">
@@ -35,7 +44,9 @@ const createCoupon = () => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-success w-full mt-[2%]"
-              onChange={handleTitle}
+              onChange={handleInputChange}
+              name="name"
+              value={userData.name}
             />
             <div className="dropdown">
               <label tabIndex={0} className="btn m-1">
@@ -47,10 +58,10 @@ const createCoupon = () => {
                 onClick={handleDropDownSelect}
               >
                 <li>
-                  <option value="Static ">Static Coupon</option>
+                  <option value="Static Coupon">Static Coupon</option>
                 </li>
                 <li>
-                  <option value="Dynamic">Dynamic Coupon</option>
+                  <option value="Dynamic Coupon">Dynamic Coupon</option>
                 </li>
               </div>
             </div>
@@ -61,6 +72,7 @@ const createCoupon = () => {
             >
               Continue
             </button>
+            <RangeSlider className="w-40 h-8" defaultValue={[25,75]}/>
           </div>
         </div>
       </div>
@@ -71,4 +83,4 @@ const createCoupon = () => {
   );
 };
 
-export default createCoupon;
+export default CreateCoupon;

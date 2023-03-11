@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../context/AuthContext";
+import { child, getDatabase, push, ref, update } from 'firebase/database';
 
 
 const Hero = () => {
@@ -13,7 +14,15 @@ const Hero = () => {
         e.preventDefault();
         try {
             const data = await signIn(email, password);
-            console.log(data);
+            const db = getDatabase()
+            // const newPostKey = push(child(ref(db), 'org')).key;
+            const postData = {
+                email: email,
+            }
+            const updates = {};
+            updates['org/' + email.split('@')[0]] = postData;
+            console.log(data)
+            return update(ref(db), updates);
         } catch (err) {
             if (err.code === "auth/wrong-password") {
                 console.log("Wrong password")
@@ -22,7 +31,7 @@ const Hero = () => {
                 console.log("User not found")
             }
             else {
-                console.log(err.code);
+                console.log(err);
             }
         }
     };
@@ -40,11 +49,11 @@ const Hero = () => {
         <section class="h-screen">
             <div class="w-[1oovw]">
                 <div
-                    class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
+                    class="g-6 flex h-screen flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
                     
                     <div class="relative">
-                    <img src={'login.png'}  class="h-full"/>
+                    <img src={'login.png'}  class="h-screen object-fill"/>
                     <img src={'laptop.png'} class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1/3"/>
                     <div class="container absolute top-[49%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[27%] w-[40.3%] bg-white"></div>
                     </div>
