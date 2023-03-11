@@ -4,7 +4,8 @@ import 'package:loc_coupon/models/product_model.dart';
 class ProductCarousal extends StatefulWidget {
   final String title;
   final List<Product> products;
-  ProductCarousal({required this.title,required this.products});
+  final Function cartUp;
+  ProductCarousal({required this.title,required this.products, required this.cartUp});
 
   @override
   State<ProductCarousal> createState() => _ProductCarousalState();
@@ -67,6 +68,7 @@ class _ProductCarousalState extends State<ProductCarousal> {
                     setState(() {
                       cart.add(widget.products[index]);
                     });
+                    widget.cartUp();
                   },
                 )
               ],
