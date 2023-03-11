@@ -3,20 +3,20 @@ import Navbar from "../components/Navbar";
 import { UserAuth, UserContext } from "../context/AuthContext";
 import { useContext } from "react";
 import Hero from "../components/Hero";
+import Calender from "../components/calendar/Calender";
 export default function Home() {
   const { createUser } = useContext(UserContext);
 
   const makeNewUserUsingFirebaseAuthContext = async () => {
-    try{
+    try {
       const data = await createUser("jinishshah08@gmail.com", "123456");
-      console.log(data)
-    }
-    catch(err){
-      if(err.message === "Firebase: Error (auth/email-already-in-use)."){
-        console.log("Email already exists")
+      console.log(data);
+    } catch (err) {
+      if (err.message === "Firebase: Error (auth/email-already-in-use).") {
+        console.log("Email already exists");
       }
     }
-  }
+  };
 
   return (
     <div>
