@@ -1,9 +1,12 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import { UserAuth, UserContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Hero from "../components/Hero";
 import Calender from "../components/calendar/Calender";
+import { app } from "../utils/firebase-config";
+import { getDatabase, onValue, ref, set } from "firebase/database";
+
 export default function Home() {
   const { createUser } = useContext(UserContext);
 
@@ -17,6 +20,28 @@ export default function Home() {
       }
     }
   };
+
+  const updateRealTimeDatabase = () => {
+    const db = getDatabase()
+    set(ref(db, '1234/'), {
+      name:"jinish"
+    })
+  }
+
+  const readDataFromRealTimeDatabase = () => {
+    const db = getDatabase();
+    const starCountRef = ref(db, "user/");
+    onValue(starCountRef, (snapshot) => {
+    const data = snapshot.val();
+    // updateStarCount(postElement, data);
+    console.log(data)
+  });
+  }
+
+  useEffect(()=>{
+    // updateRealTimeDatabase()
+    readDataFromRealTimeDatabase()
+  },[])
 
   return (
     <div>
