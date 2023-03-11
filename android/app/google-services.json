@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "65962690018",
+    "project_id": "coupon-generator-a00eb",
+    "storage_bucket": "coupon-generator-a00eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65962690018:android:ee83dffbc418fe6fe0a5bb",
+        "android_client_info": {
+          "package_name": "outofbounds.co.in"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65962690018-mo9oqq8m1k4s6v5qlnu7td7kb890foeo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "outofbounds.co.in",
+            "certificate_hash": "2bf99cb2fea39695e4d52729a0472aaec0c4d532"
+          }
+        },
+        {
+          "client_id": "65962690018-slk8bq0q5h5fd84ocree2g3g5cti6k9a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABo5aurteq4fa98_jukV5y7sQ9uHadvhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65962690018-d42o7lsd8gnktne4dns3umcslvi1hsc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
