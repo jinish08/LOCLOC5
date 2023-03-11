@@ -163,17 +163,17 @@ export default function EventModal({ startD, endD }) {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+                    className="btn btn-primary"
                     onClick={onSubmit}
                   >
                     Create
                   </button>
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    className="btn btn-secondary"
                     onClick={() => setModal(false)}
                     ref={cancelButtonRef}
                   >

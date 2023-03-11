@@ -25,7 +25,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <Calender />
+
       {/* <button onClick={makeNewUserUsingFirebaseAuthContext}>Click</button> */}
     </div>
   );
