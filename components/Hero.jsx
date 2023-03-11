@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../context/AuthContext";
 
+
 const Hero = () => {
 
     const { signIn, user ,googleLogin} = useContext(UserContext);
@@ -37,16 +38,18 @@ const Hero = () => {
 
     return (
         <section class="h-screen">
-            <div class="container h-full px-6 py-24">
+            <div class="w-[1oovw]">
                 <div
                     class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-                    <div class="relative w-[330px] h-[640px] m-auto rounded-[36px] border-y-[60px] border-[16px] border-[solid] before:content-[''] before:block before:w-[60px] before:h-[5px] before:absolute before:top-[-30px] before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-[10px] before:left-2/4 after:content-[''] after:block after:w-[35px] after:h-[35px] after:absolute after:bottom-[-65px] after:-translate-x-2/4 after:-translate-y-2/4 after:rounded-[50%] after:left-2/4 before:bg-[#333] after:bg-[#333]">
-                      <div class="w-[330px] h-[640px] ">
-                      </div>
+                    
+                    <div class="relative">
+                    <img src={'login.png'}  class="h-full"/>
+                    <img src={'laptop.png'} class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1/3"/>
+                    <div class="container absolute top-[49%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[27%] w-[40.3%] bg-white"></div>
                     </div>
                     </div>
-                    <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
+                    <div class="md:w-8/12 lg:mx-auto lg:w-5/12">
                         <form>
                             <div class="relative" data-te-input-wrapper-init>
                                 <label className="label">
