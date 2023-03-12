@@ -33,7 +33,42 @@ const ConfirmCoupons = () => {
 
       const db = getDatabase()
 
-      console.log(item)
+      const rule = {
+        conditions: {
+          all: [
+            {
+              fact: "age",
+              operator: "greaterThanInclusive",
+              value: totalData.ageMin,
+            },
+            {
+              fact: "age",
+              operator: "lesserThanInclusive",
+              value: totalData.ageMax,
+            },
+            {
+              fact:"location",
+              operator:"equal",
+              value:totalData.location
+            },
+            {
+              fact:"cartValue",
+              operator:"greaterThanInclusive",
+              value:totalData.minCartValue
+            },
+            {
+              fact:"cartItems",
+              operator:"greaterThanInclusive",
+              value:totalData.minCartItems
+            },
+          ],
+        },
+        event: {
+          type: "adult-content-blocked",
+        },
+      };
+
+      postData.rule = rule
 
       // Get a key for a new Post.
       // const newPostKey = push(child(ref(db), 'org/'+user.email?.split('@')[0])).key;
