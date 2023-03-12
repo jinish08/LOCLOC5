@@ -2,10 +2,13 @@ import { getDatabase, onValue, ref } from "firebase/database";
 import React, { useContext, useEffect, useState } from "react";
 import Side from "../../assets/woman.png";
 import { UserContext } from "../../context/AuthContext";
+import Table from "../../components/Table";
+import uuid from "react-uuid";
 
 const DynamicPage3 = () => {
     const [userData, setUserData] = useState([]);
     const { market, setMarket } = useContext(UserContext);
+    // const [user, setUser] = useState([]);
 
   const readDataFromRealTimeDatabase = () => {
     const db = getDatabase();
@@ -16,8 +19,9 @@ const DynamicPage3 = () => {
     });
 
   };
-  const filterUserData = () => {
-    const newArr = []
+    const [filteredUser,setFilteredUser] = useState([]);
+    const filterUserData = () => {
+        const newArr = [];
       userData.forEach((user) => {
           console.log(user);
           if ((user.Product_1 == market[0] || user.Product_2 == market[0] || user.Product_3 == market[0] || user.Product_4 == market[0] || user.Product_5 == market[0]) && (user.Product_1 == market[1] || user.Product_2 == market[1] || user.Product_3 == market[1] || user.Product_4 == market[1] || user.Product_5 == market[1] )){
@@ -25,8 +29,30 @@ const DynamicPage3 = () => {
               newArr.push(user);
           }
       });
+        setFilteredUser(newArr);
       console.log(newArr);
-  }
+    }
+
+    const getUserArray = () => {
+        console.log("Called");
+    let initialUsers = [];
+        initialUsers = filteredUser.map((user) => {
+            // console.log("user:",user);
+        return {
+        userid: uuid(),
+        phone: user.Phone,
+        product1: user.Product_1,
+        product2: user.Product_2,
+        product3: user.Product_3,
+        product4: user.Product_4,
+        product5: user.Product_5,
+        support: user.support,
+        };
+        });
+        console.log(initialUsers)
+    return initialUsers;
+    };
+
 const [userSatisfy, setUserSatisfy] = useState([]);
   const [type, setType] = useState("Select Mode of Delivery");
   const handleDropDownSelect = (e) => {
@@ -43,7 +69,9 @@ const [userSatisfy, setUserSatisfy] = useState([]);
 
   useEffect(()=>{
       filterUserData();
-  },[userData])
+      const usersTp = getUserArray();
+    setUserSatisfy(usersTp);
+  }, [userData])
 
   return (
     <div className="h-screen bg-white flex w-[100vw]">
@@ -82,24 +110,67 @@ const [userSatisfy, setUserSatisfy] = useState([]);
           </div>
           {type === "SMS" ? (
             <div className="mt-[10%]">
-              <h1 className="text-bold text-lg ">Enter Phone Number</h1>
-              <input
+              <h1 className="text-bold text-lg ">SMS</h1>
+              {/* <input
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered input-success w-full mt-[2%]"
                 onChange={handleInputChange}
                 name="name"
-              />
-              <h1 className="text-bold text-lg ">Enter Phone Number</h1>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered input-success w-full mt-[2%]"
-                onChange={handleInputChange}
-                name="name"
-              />
+              /> */}
+            <div className="w-full">
+                <Table
+                    data={userSatisfy}
+                    columns={[
+                    {
+                        label: "user_id",
+                        field: "userid",
+                    },
+                    {
+                        label: "Phone",
+                        field: "phone",
+                    },
+                    {
+                        label: "Product_1",
+                        field: "product1",
+                    },
+                    
+                    {
+                        label: "Product_2",
+                        field: "product2",
+                    },
+                    
+                    {
+                        label: "Product_3",
+                        field: "product3",
+                    },
+                    
+                    {
+                        label: "Product_4",
+                        field: "product4",
+                    },
+                    
+                    {
+                        label: "Product_5",
+                        field: "product5",
+                    },
+                    {
+                        label: "Support Estimated",
+                        field: "support",
+                    },
+                    ]}
+                />
             </div>
-          ) : null}
+                          {/* <h1 className="text-bold text-lg ">Enter Phone Number</h1>
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered input-success w-full mt-[2%]"
+                onChange={handleInputChange}
+                name="name"
+                />*/}
+            </div>
+        ) : null}
           {type === "EMAIL" ? <div>hiii</div> : null}
           {type === "UI Node" ? <div>hiii</div> : null}
         </div>
