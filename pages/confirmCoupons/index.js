@@ -7,6 +7,7 @@ const ConfirmCoupons = () => {
   const { user ,userData:couponData ,designData } = useContext(UserContext)
 
   const [userData, setUserData] = React.useState([])
+  const [userKeys, setUserKeys] = React.useState([])
 
   const readDataFromRealTimeDatabase = () => {
     const db = getDatabase();
@@ -15,7 +16,12 @@ const ConfirmCoupons = () => {
       const data = snapshot.val();
       // updateStarCount(postElement, data);
       // console.log(data)
+      if(data === null){
+        return
+      }
       setUserData([...Object.values(data)])
+      setUserKeys([...Object.keys(data)])
+      
     });
   }
 
@@ -24,15 +30,13 @@ const ConfirmCoupons = () => {
   }, [])
 
   const makeCoupons = () => {
+    const couponD = couponData;
+    const designD = designData;
+    const totalData = { ...couponD, ...designD }
+    const postData = designD?.code;
+    const db = getDatabase()
+    const globalUpdates = {}
     userData?.map((item, index) => {
-
-      const couponD = couponData;
-      const designD = designData;
-      const totalData = { ...couponD, ...designD }
-      const postData = designD?.code;
-
-      const db = getDatabase()
-
       const rule = {
         conditions: {
           all: [
@@ -78,8 +82,8 @@ const ConfirmCoupons = () => {
       
       updates['org/' + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/Coupons/" + item.CouponsLength] = postData;
       updates["org/" + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/CouponsLength"] = item.CouponsLength + 1
-
-      updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code] = totalData
+      updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/data"] = totalData
+      updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/userIdList"] = userKeys
 
       update(ref(db), updates);
     })
