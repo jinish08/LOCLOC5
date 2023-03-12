@@ -1,19 +1,24 @@
 import Router, { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Side from "../assets/create.png";
-const definingRules = () => {
+import { UserContext } from "../context/AuthContext";
+const DefiningRules = () => {
   const router = useRouter();
   const [type, setType] = useState("Gender");
   const [isChecked, setIsChecked] = useState(false);
+  const { userData, setUserData, handleInputChange } = useContext(UserContext);
 
-  const handleInputChange = (e) => {
-    console.log(e.target.id);
-    setIsChecked(!isChecked);
-  };
   const handleDropDownSelect = (e) => {
-    console.log(e.target.value);
     setType(e.target.value);
+    const data = userData;
+    data.gender = e.target.value;
+    setUserData({ ...data});
   };
+
+  useEffect(()=>{
+    console.log(userData)
+  },[userData])
+
   const handleClick = () => {
     router.push("/definingRules1");
   };
@@ -34,77 +39,55 @@ const definingRules = () => {
             <h1 className="text-bold text-3xl tracking-[1.5px] ">
               Defining Rules for your Rule Engine
             </h1>
-            {/* <div className="flex gap-2">
-              <label>Rule on User Age</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Location</label>
-              <input
-                id="location"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Income</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Gender</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div> */}
             <label>Count of Coupons</label>
             <input
               id="count"
               type="number"
+              name="couponCount"
               placeholder="Type here"
               className="input input-bordered input-success w-full mt-[2%]"
+              value={userData.couponCount}
+              onChange={handleInputChange}
             />
-            <label>Age</label>
+            <label>Max Age</label>
             <input
-              id="age"
-              type="range"
-              min="0"
-              max="100"
-              value="40"
-              className="range"
+              id="count3"
+              type="number"
+              name="ageMax"
+              placeholder="Type here"
+              className="input input-bordered input-success w-full mt-[2%]"
+              value={userData.ageMax}
+              onChange={handleInputChange}
+            />
+            <label>Min Age</label>
+            <input
+              id="count2"
+              type="number"
+              name="ageMin"
+              placeholder="Type here"
+              className="input input-bordered input-success w-full mt-[2%]"
+              value={userData.ageMin}
+              onChange={handleInputChange}
             />
             <label>Location</label>
             <input
               id="location"
               type="text"
+              name="location"
               placeholder="Type here"
               className="input input-bordered input-success w-full mt-[2%]"
+              value={userData.location}
+              onChange={handleInputChange}
             />
-            <label>Income</label>
+            <label>Tag</label>
             <input
-              id="income"
-              type="range"
-              min="0"
-              max="100"
-              value="40"
-              className="range"
+              id="tag"
+              type="text"
+              placeholder="Type here"
+              name="tag"
+              value={userData.tag}
+              onChange={handleInputChange}
+              className="input input-bordered input-success w-full mt-[2%]"
             />
             <div className="dropdown">
               <label tabIndex={0} className="btn m-1">
@@ -139,4 +122,4 @@ const definingRules = () => {
   );
 };
 
-export default definingRules;
+export default DefiningRules;

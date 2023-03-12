@@ -13,6 +13,35 @@ export const UserContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [userData, setUserData] = useState({
+    name:"",
+    couponType:"",
+    couponCount:"",
+    ageMin:"",
+    ageMax:"",
+    location:"",
+    tag:"",
+    gender:"",
+    discountType:"",
+    minCartItems:"",
+    minCartValue:"",
+    discountValue:"",
+  })
+
+  const [designData, setDesignData] = useState({
+    bgColor:"",
+    title:"",
+    code:"",
+    image:"",
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -41,7 +70,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ createUser, user, logout, signIn ,googleLogin}}>
+    <UserContext.Provider value={{ createUser, user, logout, signIn ,googleLogin , userData,setUser,setUserData,handleInputChange , designData , setDesignData}}>
       {children}
     </UserContext.Provider>
   );

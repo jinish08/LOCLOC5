@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Side from "../assets/create.png";
-const definingRules1 = () => {
+import { UserContext } from "../context/AuthContext";
+const DefiningRules1 = () => {
   const [type, setType] = useState("Add ons");
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleInputChange = (e) => {
-    console.log(e.target.id);
-    setIsChecked(!isChecked);
-  };
+  const { userData, setUserData, handleInputChange } = useContext(UserContext);
+
   const handleDropDownSelect = (e) => {
-    console.log(e.target.value);
     setType(e.target.value);
+    const data = userData;
+    data.discountType = e.target.value;
+    setUserData({ ...data });
   };
+
+  useEffect(()=>{
+    console.log(userData)
+  },[userData])
+
   return (
     <div className="bg-white flex w-full">
       <div className="flex flex-col items-start h-[70vh] mt-[10%] w-[70vw]">
@@ -29,67 +35,6 @@ const definingRules1 = () => {
             <h1 className="text-bold text-3xl tracking-[1.5px] ">
               Defining Rules for your Rule Engine
             </h1>
-            {/* <div className="flex gap-2">
-              <label>Rule on User Age</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Location</label>
-              <input
-                id="location"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Income</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label>Rule on Gender</label>
-              <input
-                id="age"
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleInputChange}
-                className="checkbox checkbox-primary"
-              />
-            </div> */}
-            <label>Amount</label>
-            <input
-              id="amount"
-              type="number"
-              placeholder="Type here"
-              className="input input-bordered input-success w-full mt-[0.5%]"
-            />
-            <label>Min Cart Items</label>
-            <input
-              id="minCart"
-              type="number"
-              placeholder="Type here"
-              className="input input-bordered input-success w-full mt-[0.5%]"
-            />
-            <label>Min Cart Amount</label>
-            <input
-              id="minAmount"
-              type="number"
-              placeholder="Type here"
-              className="input input-bordered input-success w-full mt-[0.5%]"
-            />
             <div className="dropdown">
               <label tabIndex={0} className="btn m-1">
                 {type}
@@ -110,6 +55,37 @@ const definingRules1 = () => {
                 </li>
               </div>
             </div>
+            {(type==="Flat Discount [%]" || type==="Flat Discounts [-]") && <><label>Amount</label>
+            <input
+              id="amount"
+              type="number"
+              name="discountValue"
+              placeholder="Type here"
+              className="input input-bordered input-success w-full mt-[0.5%]"
+              value={userData.discountValue}
+              onChange={handleInputChange}
+            /></>}
+            <label>Min Cart Items</label>
+            <input
+              id="minCart"
+              type="number"
+              placeholder="Type here"
+              name="minCartItems"
+              className="input input-bordered input-success w-full mt-[0.5%]"
+              value={userData.minCartItems}
+              onChange={handleInputChange}
+            />
+            <label>Min Cart Amount</label>
+            <input
+              id="minAmount"
+              type="number"
+              name="minCartValue"
+              placeholder="Type here"
+              className="input input-bordered input-success w-full mt-[0.5%]"
+              value={userData.minCartValue}
+              onChange={handleInputChange}
+            />
+            
             <button className="btn btn-primary max-w-xs mt-[2%]">
               Continue
             </button>
@@ -123,4 +99,4 @@ const definingRules1 = () => {
   );
 };
 
-export default definingRules1;
+export default DefiningRules1;
