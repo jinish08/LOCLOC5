@@ -12,20 +12,21 @@ const DynamicPage3 = () => {
     const starCountRef = ref(db, "org/jinishshah08/users");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
-      // updateStarCount(postElement, data);
-        setUserData([...Object.values(data)]);
-        console.log(market);
-        const newArr = userData.map((user) => {
-            // console.log(user);
-            if ((user.Product_1 == market[0] || user.Product_2 == market[0] || user.Product_3 == market[0] || user.Product_4 == market[0]) && (user.Product_1 == market[1] || user.Product_2 == market[1] || user.Product_3 == market[1] || user.Product_4 == market[1])) {
-                console.log("Found ", user);
-                return user;
-            }
-        });
-        console.log(newArr);
+      setUserData([...Object.values(data)]);
     });
 
   };
+  const filterUserData = () => {
+    const newArr = []
+      userData.forEach((user) => {
+          console.log(user);
+          if ((user.Product_1 == market[0] || user.Product_2 == market[0] || user.Product_3 == market[0] || user.Product_4 == market[0] || user.Product_5 == market[0]) && (user.Product_1 == market[1] || user.Product_2 == market[1] || user.Product_3 == market[1] || user.Product_4 == market[1] || user.Product_5 == market[1] )){
+              console.log("Found ", user);
+              newArr.push(user);
+          }
+      });
+      console.log(newArr);
+  }
 const [userSatisfy, setUserSatisfy] = useState([]);
   const [type, setType] = useState("Select Mode of Delivery");
   const handleDropDownSelect = (e) => {
@@ -39,6 +40,10 @@ const [userSatisfy, setUserSatisfy] = useState([]);
   useEffect(() => {
     readDataFromRealTimeDatabase();
   }, []);
+
+  useEffect(()=>{
+      filterUserData();
+  },[userData])
 
   return (
     <div className="h-screen bg-white flex w-[100vw]">
