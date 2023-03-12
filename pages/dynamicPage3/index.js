@@ -1,17 +1,32 @@
 import { getDatabase, onValue, ref } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Side from "../../assets/woman.png";
+import { UserContext } from "../../context/AuthContext";
+
 const DynamicPage3 = () => {
-  const [userData, setUserData] = useState([]);
+    const [userData, setUserData] = useState([]);
+    const { market, setMarket } = useContext(UserContext);
+
   const readDataFromRealTimeDatabase = () => {
     const db = getDatabase();
     const starCountRef = ref(db, "org/jinishshah08/users");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       // updateStarCount(postElement, data);
-      setUserData([...Object.values(data)]);
+        setUserData([...Object.values(data)]);
+        console.log(market);
+        const newArr = userData.map((user) => {
+            // console.log(user);
+            if ((user.Product_1 == market[0] || user.Product_2 == market[0] || user.Product_3 == market[0] || user.Product_4 == market[0]) && (user.Product_1 == market[1] || user.Product_2 == market[1] || user.Product_3 == market[1] || user.Product_4 == market[1])) {
+                console.log("Found ", user);
+                return user;
+            }
+        });
+        console.log(newArr);
     });
+
   };
+const [userSatisfy, setUserSatisfy] = useState([]);
   const [type, setType] = useState("Select Mode of Delivery");
   const handleDropDownSelect = (e) => {
     console.log(e);
