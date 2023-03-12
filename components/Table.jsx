@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Table = ({ data, columns }) => {
   const [usersData, setUsersData] = useState([]);
@@ -13,12 +13,13 @@ const Table = ({ data, columns }) => {
   useEffect(() => {
     if (data.length !== 0 && columns) {
       console.log(data);
-      setStundentsData(data);
+      setUsersData(data);
       setTableRows(
         data.map((r) => {
           return {
-            sapid: r.sapid,
-            name: r.name,
+            userid: r.userid,
+            product: r.product,
+            support: r.support,
             // clickEvent: () => handleClick(),
           };
         })
@@ -62,24 +63,16 @@ const Table = ({ data, columns }) => {
             entries={5}
             pagesAmount={4}
             data={datatable}
-            checkbox
+            // checkbox
             headCheckboxID="id6"
             bodyCheckboxID="checkboxes6"
-            getValueCheckBox={(e) => {
-              addUserData(e);
-            }}
-            getValueAllCheckBoxes={(e) => {
-              addUserData(e);
-            }}
-            multipleCheckboxes
+            // multipleCheckboxes
             responsive
             searchTop
             searchBottom={false}
           />
         </div>
-      ) : (
-        Loading
-      )}
+      ) : null}
     </>
   );
 };

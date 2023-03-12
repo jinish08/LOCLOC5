@@ -1,13 +1,41 @@
 import React, { useState, useEffect } from "react";
 import Side from "../../assets/woman.png";
 import axios from "axios";
+import Table from "../../components/Table";
+import uuid from "react-uuid";
+
 const DynamicCoupon = () => {
   const [users, setUsers] = useState([]);
-  const getData = async () => {
-    const response = await fetch("http://localhost:5000/support/5");
-    console.log(response);
-  };
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    const getUserArray = (Users) => {
+      let initialUsers = [];
+      initialUsers = Users?.map((user) => {
+        return {
+          userid: uuid(),
+          product: user.lhs.split(",").join(""),
+          support: user.support,
+        };
+      });
+      return initialUsers;
+    };
+
+    const getData = async () => {
+      try {
+        const rawResponse = await fetch(`http://localhost:5000/support/5`, {
+          method: "GET",
+        });
+        const userData = await rawResponse.json();
+        const userArray = getUserArray(userData);
+        setUsers(userArray);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
     getData();
   }, []);
 
@@ -30,6 +58,31 @@ const DynamicCoupon = () => {
             <h1 className="text-bold text-3xl tracking-[1.5px] ">
               Performing Analysis on Users
             </h1>
+            {loading ? (
+              <h1>Loading</h1>
+            ) : (
+              <Table
+                data={users}
+                columns={[
+                  {
+                    label: "user_id",
+                    field: "userid",
+                  },
+                  {
+                    label: "Product Links",
+                    field: "product",
+                  },
+                  {
+                    label: "Support Estimated",
+                    field: "support",
+                  },
+                ]}
+              />
+            )}
+
+            <button className="btn btn-primary max-w-xs mt-[2%]">
+              Continue
+            </button>
           </div>
         </div>
       </div>
