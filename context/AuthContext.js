@@ -20,13 +20,19 @@ export const AuthContextProvider = ({ children }) => {
     ageMin:"",
     ageMax:"",
     location:"",
-    incomeMin:"",
-    incomeMax:"",
+    tag:"",
     gender:"",
     discountType:"",
     minCartItems:"",
     minCartValue:"",
     discountValue:"",
+  })
+
+  const [designData, setDesignData] = useState({
+    bgColor:"",
+    title:"",
+    code:"",
+    image:"",
   })
 
   const handleInputChange = (e) => {
@@ -64,7 +70,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ createUser, user, logout, signIn ,googleLogin , userData,setUser,handleInputChange}}>
+    <UserContext.Provider value={{ createUser, user, logout, signIn ,googleLogin , userData,setUser,setUserData,handleInputChange , designData , setDesignData}}>
       {children}
     </UserContext.Provider>
   );

@@ -2,17 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import Side from "../assets/create.png";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/AuthContext";
-import RangeSlider from "../components/RangeSlider"
+
 const CreateCoupon = () => {
   const router = useRouter();
   const [type, setType] = useState("Select type of Coupon");
-  const {userData,setUser,handleInputChange} = useContext(UserContext)
+  const {userData,setUserData,handleInputChange} = useContext(UserContext)
   const handleDropDownSelect = (e) => {
     setType(e.target.value);
     const data = userData
     data.couponType = e.target.value
-    setUser({...data})
+    setUserData({...data})
   };
+
 
   const handleContinue = () => {
     if(type === "Dynamic Coupon"){
@@ -72,7 +73,6 @@ const CreateCoupon = () => {
             >
               Continue
             </button>
-            <RangeSlider className="w-40 h-8" defaultValue={[25,75]}/>
           </div>
         </div>
       </div>
