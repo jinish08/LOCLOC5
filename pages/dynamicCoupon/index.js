@@ -48,41 +48,45 @@ const DynamicCoupon = () => {
         <div className="w-full mt-[-5%] flex items-center justify-center">
           <ul className="steps steps-vertical w-full lg:steps-horizontal">
             <li className="step step-primary">Choose</li>
-            <li className="step step-primary">Recommended Users List</li>
+            <li className="step step-primary">User Analysis</li>
             <li className="step">UI node</li>
             <li className="step">Publish Coupon</li>
           </ul>
         </div>
-        <div className="flex items-start justify-start  w-full mt-[5%]">
-          <div className="ml-[4%] gap-6 flex flex-col">
+        <div className="flex w-[70vw] mt-[5%] mr-[3%]">
+          <div className="ml-[4%] gap-6 flex flex-col pr-[4%]">
             <h1 className="text-bold text-3xl tracking-[1.5px] ">
               Performing Analysis on Users
             </h1>
+            <p className="text-gray-700 text-md ">
+              By performing the market basket Analysis on your user data, we
+              observed that: Remember Higher support items are frequently bought
+              together, we <span className="text-xl text-black">Suggest</span>{" "}
+              to add discounts on items like that
+            </p>
             {loading ? (
               <h1>Loading</h1>
             ) : (
-              <Table
-                data={users}
-                columns={[
-                  {
-                    label: "user_id",
-                    field: "userid",
-                  },
-                  {
-                    label: "Product Links",
-                    field: "product",
-                  },
-                  {
-                    label: "Support Estimated",
-                    field: "support",
-                  },
-                ]}
-              />
+              <div className="w-full">
+                <Table
+                  data={users}
+                  columns={[
+                    {
+                      label: "user_id",
+                      field: "userid",
+                    },
+                    {
+                      label: "Product Links",
+                      field: "product",
+                    },
+                    {
+                      label: "Support Estimated",
+                      field: "support",
+                    },
+                  ]}
+                />
+              </div>
             )}
-
-            <button className="btn btn-primary max-w-xs mt-[2%]">
-              Continue
-            </button>
           </div>
         </div>
       </div>

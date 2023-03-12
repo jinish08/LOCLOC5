@@ -4,11 +4,15 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/AuthContext";
+import { useRouter } from "next/router";
 
 const Table = ({ data, columns }) => {
+  const router = useRouter();
   const [usersData, setUsersData] = useState([]);
   const [tableRows, setTableRows] = useState([]);
+  const { market, setMarket } = useContext(UserContext);
   const [sapIDs, setSapIDs] = useState([]);
   useEffect(() => {
     if (data.length !== 0 && columns) {
@@ -20,13 +24,17 @@ const Table = ({ data, columns }) => {
             userid: r.userid,
             product: r.product,
             support: r.support,
-            // clickEvent: () => handleClick(),
+            clickEvent: (e) => handleClick(e),
           };
         })
       );
     }
   }, [data]);
-
+  const handleClick = (e) => {
+    console.log(e.product);
+    setMarket(e.product);
+    router.push("/dynamicPage3");
+  };
   const addUserData = (e) => {
     if (e.length === data.length && sapIDs.length !== data.length) {
       let saps = [];
