@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
     email: 'jinishshah08@gmail.com',
   });
   const [userData, setUserData] = useState({
-    name: "PHNE15",
+    name: "DELL30",
     couponType: "Static Coupon",
     couponCount: "200",
     ageMin: "18",

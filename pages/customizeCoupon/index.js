@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 const CustomizeCoupon = () => {
 
-    const { designData, setDesignData } = useContext(UserContext)
+    const { designData, setDesignData , userData, setUserData } = useContext(UserContext)
 
     const router = useRouter();
 

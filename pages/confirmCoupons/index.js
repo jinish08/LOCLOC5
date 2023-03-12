@@ -4,7 +4,7 @@ import { UserContext } from '../../context/AuthContext';
 
 const ConfirmCoupons = () => {
 
-  const { user } = useContext(UserContext)
+  const { user ,userData:couponData ,designData } = useContext(UserContext)
 
   const [userData, setUserData] = React.useState([])
 
@@ -14,7 +14,7 @@ const ConfirmCoupons = () => {
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       // updateStarCount(postElement, data);
-      console.log(data)
+      // console.log(data)
       setUserData([...Object.values(data)])
     });
   }
@@ -26,7 +26,10 @@ const ConfirmCoupons = () => {
   const makeCoupons = () => {
     userData?.map((item, index) => {
 
-      const postData = "CPNONE";
+      const couponD = couponData;
+      const designD = designData;
+      const totalData = { ...couponD, ...designD }
+      const postData = couponD?.code;
 
       const db = getDatabase()
 
@@ -37,9 +40,11 @@ const ConfirmCoupons = () => {
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
-      updates['org/' + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/Coupons/" + 0] = postData;
+      
+      updates['org/' + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/Coupons/" + item.CouponsLength] = postData;
+      updates["org/" + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/CouponsLength"] = item.CouponsLength + 1
 
-      // console.log(updates)
+      updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code] = totalData
 
       update(ref(db), updates);
     })
