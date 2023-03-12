@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
     code: "PHNE15",
     image: "",
   });
-  const [market, setMarket] = useState("Mouse  PhoneCase");
+  const [market, setMarket] = useState(["Mouse" ,"PhoneCase"]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
