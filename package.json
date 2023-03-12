@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
+    "@lottiefiles/react-lottie-player": "^3.5.2",
+    "@material-ui/icons": "^4.11.3",
     "daisyui": "^2.51.3",
     "firebase": "^9.17.2",
     "framer-motion": "^10.2.4",
@@ -23,6 +25,7 @@
     "react-horizontal-timeline": "^1.5.3",
     "react-icons": "^4.8.0",
     "reactflow": "^11.5.6",
+    "recharts": "^2.4.3",
     "recoil": "^0.7.7",
     "rulejs": "^0.3.0",
     "sweetalert2": "^11.7.3",
