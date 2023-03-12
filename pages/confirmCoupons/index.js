@@ -29,7 +29,7 @@ const ConfirmCoupons = () => {
       const couponD = couponData;
       const designD = designData;
       const totalData = { ...couponD, ...designD }
-      const postData = couponD?.code;
+      const postData = designD?.code;
 
       const db = getDatabase()
 
@@ -68,7 +68,7 @@ const ConfirmCoupons = () => {
         },
       };
 
-      postData.rule = rule
+      totalData.rule = rule
 
       // Get a key for a new Post.
       // const newPostKey = push(child(ref(db), 'org/'+user.email?.split('@')[0])).key;
