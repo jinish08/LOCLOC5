@@ -19,7 +19,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<Product> c=[];
+  List<Product> c = [];
   int len = 0;
   double sum = 0;
   TextEditingController controller = TextEditingController();
@@ -36,17 +36,15 @@ class _CartScreenState extends State<CartScreen> {
     getPrice(c.length);
   }
 
-  void cartDown (){
+  void cartDown() {
     setState(() {
       len--;
       print(len);
     });
   }
 
-  void getPrice(int len)
-  {
-    for(int i=0;i<len;i++)
-      sum+=c[i].price;
+  void getPrice(int len) {
+    for (int i = 0; i < len; i++) sum += c[i].price;
     print(sum);
   }
 
@@ -72,8 +70,7 @@ class _CartScreenState extends State<CartScreen> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         trailing: Text("\$${c[index].price.toStringAsFixed(2)}",
-            style: TextStyle(
-                color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 16)),
+            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 16)),
       ),
     );
   }
@@ -115,7 +112,6 @@ class _CartScreenState extends State<CartScreen> {
     } catch (e) {
       debugPrint('Error: e');   // prints the error if unable to open the interface.
     }*/
-
   }
 
   @override
@@ -134,17 +130,18 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Expanded(
             child: ListView.separated(
-              itemBuilder: (ctx, index) => CartCard(cart: c,index: index,),
+              itemBuilder: (ctx, index) => CartCard(
+                cart: c,
+                index: index,
+              ),
               separatorBuilder: (ctx, index) => Divider(color: Colors.grey[300]),
               itemCount: c.length,
             ),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(10,2,10,2),
+            padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: Colors.red)
-            ),
+                borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.red)),
             child: TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -160,23 +157,18 @@ class _CartScreenState extends State<CartScreen> {
               child: InkResponse(
                 onTap: () async {
                   String str = "";
-                  for(int i=0;i<len;i++)
-                    str += (c[i].name)+",";
-                    // Check coupon code as well, change sum after it
-                    //openCheckout(str, sum);
-                    //if(controller.text) in coupons list apply coupon
-                    String url = 'http://10.0.2.2:9000/api/coupon/getCoupons';
-                    final msg = jsonEncode({"userId": "amandakay14583", "couponId": "PHNE15"});
-                    var response = await http.post(Uri.parse(url),
-                    headers: {"Content-Type": "application/json"}, body: msg);
-                    print(response.body);
-                  },
-                  child: Text(
-                    "Make Payment Rs." + sum.toString(),
-                      ),
-                  ),
+                  for (int i = 0; i < len; i++) str += (c[i].name) + ",";
+                  // Check coupon code as well, change sum after it
+                  //openCheckout(str, sum);
+                  //if(controller.text) in coupons list apply coupon
+                  // String url = 'http://10.0.2.2:9000/api/coupon/getCoupons';
+                },
+                child: Text(
+                  "Make Payment Rs." + sum.toString(),
+                ),
               ),
             ),
+          ),
         ],
       ),
     );
