@@ -4,7 +4,6 @@ import 'package:loc_coupon/models/product_model.dart';
 import 'package:loc_coupon/screens/CartScreen.dart';
 import 'package:loc_coupon/widgets/productcarousal.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,15 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
       len++;
       print(len);
     });
-    String url = 'https://192.168.2.51/createCoupon';
-    var response = await http.get(Uri.parse(url),); //POST REQ with body
-    print(response.body);
-    /*var response = await http.post(Uri.parse(url),
-        headers: {"Content-Type": "application/json"},
-        body: "Ping"
-    );*/
-    //print("${response.statusCode}");
-    //print("${response.body}");
   }
 
   @override
@@ -51,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        title: Text("Free !!!",style: GoogleFonts.aladin(color: Colors.black,fontSize: 35),),
+        title: Text("Your Ecommerce App",style: GoogleFonts.aladin(color: Colors.black,fontSize: 35),),
         centerTitle: true,
         actions: <Widget>[
           Stack(

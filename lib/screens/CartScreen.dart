@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:loc_coupon/models/product_model.dart';
 import 'package:loc_coupon/screens/PaymentScreen.dart';
 import 'package:loc_coupon/screens/cart/components/cart_card.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+//import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({
@@ -25,10 +27,10 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    _razorpay = Razorpay();
+    /*_razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);*/
     c = widget.cart;
     len = c.length;
     getPrice(c.length);
@@ -76,7 +78,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  late Razorpay _razorpay;
+  /*late Razorpay _razorpay;
 
   // to handle successful payments
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -92,10 +94,10 @@ class _CartScreenState extends State<CartScreen> {
   // to handle cases when payment is made via external wallet.
   void _handleExternalWallet(ExternalWalletResponse response) {
     print("EXTERNAL_WALLET: " + response.walletName!);
-  }
+  }*/
 
   void openCheckout(var items, var cost) async {
-    var options = {
+    /*var options = {
       'key': 'rzp_test_prFpp5n1LUT3OR',
       'amount': 100*cost,
       'name': 'Your E-Commerce App',
@@ -112,7 +114,8 @@ class _CartScreenState extends State<CartScreen> {
       _razorpay.open(options);  // this line will open your Razorpay interface.
     } catch (e) {
       debugPrint('Error: e');   // prints the error if unable to open the interface.
-    }
+    }*/
+
   }
 
   @override
@@ -155,12 +158,18 @@ class _CartScreenState extends State<CartScreen> {
             color: Colors.orange,
             child: Center(
               child: InkResponse(
-                onTap: () {
+                onTap: () async {
                   String str = "";
                   for(int i=0;i<len;i++)
                     str += (c[i].name)+",";
                     // Check coupon code as well, change sum after it
-                    openCheckout(str, sum);
+                    //openCheckout(str, sum);
+                    //if(controller.text) in coupons list apply coupon
+                    String url = 'http://10.0.2.2:9000/api/coupon/getCoupons';
+                    final msg = jsonEncode({"userId": "amandakay14583", "couponId": "PHNE15"});
+                    var response = await http.post(Uri.parse(url),
+                    headers: {"Content-Type": "application/json"}, body: msg);
+                    print(response.body);
                   },
                   child: Text(
                     "Make Payment Rs." + sum.toString(),
