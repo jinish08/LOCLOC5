@@ -9,7 +9,6 @@ const UploadData = () => {
 
     const {user} = useContext(UserContext)
 
-    console.log(user.email?.split('@')[0])
 
     const uploadData = () => {
         const db = getDatabase()
@@ -26,7 +25,7 @@ const UploadData = () => {
         
           // Write the new post's data simultaneously in the posts list and the user's post list.
           const updates = {};
-          updates['org/'+ user.email?.split('@')[0] + "/users/" + postData.Username] = postData;
+          updates['org/'+ user.email?.split('@')[0] + "/users/" + postData.Username.toString()+postData._key.toString()] = postData;
         
           update(ref(db), updates);
         })

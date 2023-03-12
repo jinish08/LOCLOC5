@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Side from "../assets/create.png";
 import { UserContext } from "../context/AuthContext";
+import { useRouter } from "next/router";
 const DefiningRules1 = () => {
+  const router = useRouter();
   const [type, setType] = useState("Add ons");
   const [isChecked, setIsChecked] = useState(false);
 
@@ -13,10 +15,12 @@ const DefiningRules1 = () => {
     data.discountType = e.target.value;
     setUserData({ ...data });
   };
-
-  useEffect(()=>{
+  const handleClick = () => {
+    router.push("/customizeCoupon");
+  }
+  useEffect(() => {
     console.log(userData)
-  },[userData])
+  }, [userData])
 
   return (
     <div className="bg-white flex w-full">
@@ -55,16 +59,16 @@ const DefiningRules1 = () => {
                 </li>
               </div>
             </div>
-            {(type==="Flat Discount [%]" || type==="Flat Discounts [-]") && <><label>Amount</label>
-            <input
-              id="amount"
-              type="number"
-              name="discountValue"
-              placeholder="Type here"
-              className="input input-bordered input-success w-full mt-[0.5%]"
-              value={userData.discountValue}
-              onChange={handleInputChange}
-            /></>}
+            {(type === "Flat Discount [%]" || type === "Flat Discounts [-]") && <><label>Amount</label>
+              <input
+                id="amount"
+                type="number"
+                name="discountValue"
+                placeholder="Type here"
+                className="input input-bordered input-success w-full mt-[0.5%]"
+                value={userData.discountValue}
+                onChange={handleInputChange}
+              /></>}
             <label>Min Cart Items</label>
             <input
               id="minCart"
@@ -85,8 +89,18 @@ const DefiningRules1 = () => {
               value={userData.minCartValue}
               onChange={handleInputChange}
             />
-            
-            <button className="btn btn-primary max-w-xs mt-[2%]">
+            <label>Expiry Date</label>
+            <input
+              id="expiryDate"
+              type="date"
+              name="expiryDate"
+              placeholder="Type here"
+              className="input input-bordered input-success w-full mt-[0.5%]"
+              value={userData.expiryDate}
+              onChange={handleInputChange}
+            />
+
+            <button className="btn btn-primary max-w-xs mt-[2%]" onClick={handleClick}>
               Continue
             </button>
           </div>
