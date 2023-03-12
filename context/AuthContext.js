@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,14 +6,14 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
-} from 'firebase/auth';
-import { auth } from '../utils/firebase-config';
+} from "firebase/auth";
+import { auth } from "../utils/firebase-config";
 
 export const UserContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    email: 'jinishshah08@gmail.com',
+    email: "jinishshah08@gmail.com",
   });
   const [userData, setUserData] = useState({
     name: "DELL30",
@@ -29,15 +29,15 @@ export const AuthContextProvider = ({ children }) => {
     minCartValue: "200",
     discountValue: "15",
     expiryDate: "01/07/2023",
-  })
+  });
 
   const [designData, setDesignData] = useState({
     bgColor: "",
     title: "Flat 15% Off on Phone Cases",
     code: "PHNE15",
     image: "",
-  })
-
+  });
+  const [market, setMarket] = useState("Mouse  PhoneCase");
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -51,17 +51,17 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const signIn = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   const logout = () => {
-    return signOut(auth)
-  }
+    return signOut(auth);
+  };
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
-  }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -73,7 +73,23 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ createUser, user, logout, signIn, googleLogin, userData, setUser, setUserData, handleInputChange, designData, setDesignData }}>
+    <UserContext.Provider
+      value={{
+        createUser,
+        user,
+        logout,
+        signIn,
+        googleLogin,
+        userData,
+        setUser,
+        setUserData,
+        handleInputChange,
+        designData,
+        setDesignData,
+        setMarket,
+        market,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
