@@ -37,16 +37,9 @@ const ConfirmCoupons = () => {
 
   const makeCoupons = () => {
     const couponD = couponData;
-    const designD = designData;
-    const totalData = { ...couponD, ...designD }
-    const postData = designD?.code;
-    const db = getDatabase()
-    const globalUpdates = {}
+    const totalData = couponD
+    const postData = totalData?.name;
     userData?.map((item, index) => {
-      const couponD = couponData;
-      const designD = designData;
-      const totalData = { ...couponD, ...designD };
-      const postData = designD?.code;
 
       const db = getDatabase();
 
@@ -98,7 +91,7 @@ const ConfirmCoupons = () => {
       updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/data"] = totalData
       updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/userIdList"] = userKeys
 
-      update(ref(db), updates);
+      if(userData?.length && userData.length > 0)update(ref(db), updates);
     });
     router.push("/home");
   };

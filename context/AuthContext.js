@@ -29,14 +29,17 @@ export const AuthContextProvider = ({ children }) => {
     minCartValue: "200",
     discountValue: "15",
     expiryDate: "01/07/2023",
-  });
-
-  const [designData, setDesignData] = useState({
     bgColor: "",
     title: "Flat 15% Off on Phone Cases",
-    code: "PHNE15",
+    code: "DELL30",
     image: "",
   });
+
+  useEffect(()=>{
+    console.log(userData)
+  },[userData])
+
+
   const [market, setMarket] = useState(["Mouse" ,"PhoneCase"]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -84,8 +87,6 @@ export const AuthContextProvider = ({ children }) => {
         setUser,
         setUserData,
         handleInputChange,
-        designData,
-        setDesignData,
         setMarket,
         market,
       }}

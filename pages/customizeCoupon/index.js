@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 
 const CustomizeCoupon = () => {
 
-    const { designData, setDesignData , userData, setUserData } = useContext(UserContext)
+    const {  userData, setUserData ,handleInputChange } = useContext(UserContext)
+
 
     const router = useRouter();
 
@@ -28,7 +29,7 @@ const CustomizeCoupon = () => {
 
 
 
-    const [title, setTitle] = useState('Title tielt[ekvln')
+    const [title, setTitle] = useState('')
     const [ccode, setCcode] = useState('1234567')
 
     const [color1, setColor1] = useState(color.hex)
@@ -41,6 +42,7 @@ const CustomizeCoupon = () => {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         setCcode(result)
+
     }
 
     useEffect(() => {
@@ -48,15 +50,6 @@ const CustomizeCoupon = () => {
     }, [color])
 
     const submitCoupon = () => {
-
-        const data = {
-            bgColor: color1,
-            title: title,
-            code: ccode,
-            image: "",
-        }
-
-        setDesignData(data)
 
         router.push("/confirmCoupons")
     }
@@ -118,7 +111,7 @@ const CustomizeCoupon = () => {
                             <div className="form-control">
                                 <label className="input-group">
                                     <span>Coupon Code</span>
-                                    <input type="text" placeholder="info@site.com" className="input input-bordered" value={ccode} onChange={(e) => { setCcode(e.target.value) }} />
+                                    <input type="text" name="code" placeholder="info@site.com" className="input input-bordered" value={userData.code} onChange={handleInputChange} />
                                 </label>
                                 <label onClick={generateAlphaNumberCouponCode}>Auto generate</label>
                             </div>
