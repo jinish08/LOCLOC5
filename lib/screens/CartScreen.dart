@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loc_coupon/models/product_model.dart';
+import 'package:loc_coupon/screens/HomeScreen.dart';
 import 'package:loc_coupon/screens/PaymentScreen.dart';
 import 'package:loc_coupon/screens/cart/components/cart_card.dart';
 //import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -22,6 +23,8 @@ class _CartScreenState extends State<CartScreen> {
   List<Product> c = [];
   int len = 0;
   double sum = 0;
+  double newsum = 0;
+  bool couponApplied = false;
   TextEditingController controller = TextEditingController();
 
   @override
@@ -36,11 +39,14 @@ class _CartScreenState extends State<CartScreen> {
     getPrice(c.length);
   }
 
-  void cartDown() {
-    setState(() {
-      len--;
-      print(len);
-    });
+  void _showToastCorrect(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 2),
+        content: Text(msg),
+      ),
+    );
   }
 
   void getPrice(int len) {
@@ -73,6 +79,26 @@ class _CartScreenState extends State<CartScreen> {
             style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 16)),
       ),
     );
+  }
+
+  Future<bool> validateCoupons(String coupon) async {
+    String url = "http://192.168.0.105:9000/api/coupon/validate";
+    final msg = jsonEncode({"couponID": coupon});
+    var response =
+    await http.post(Uri.parse(url), headers: {"Content-Type": "application/json"}, body: msg);
+    //print(response.body);
+    bool r = response.body.toLowerCase() == 'true';
+
+    String url2 = "http://192.168.0.105:9000/api/coupon/rules";
+    final msg2 = jsonEncode({"userId": "amandakay34138", "couponId": coupon});
+    var response2 = await http.post(Uri.parse(url2), headers: {"Content-Type": "application/json"}, body: msg2);
+    //print(response2.body);
+
+    String url3 = "http://192.168.0.105:9000/api/coupon/dynamicrules";
+    final msg3 = jsonEncode({"rules": response2.body, "age":20, "country":"India", "cartValue":sum, "cartItems":len});
+    var response3 = await http.post(Uri.parse(url3), headers: {"Content-Type": "application/json"}, body: msg3);
+    bool r2 = response3.body.toLowerCase() == 'true';
+    return r&&r2;
   }
 
   /*late Razorpay _razorpay;
@@ -112,6 +138,7 @@ class _CartScreenState extends State<CartScreen> {
     } catch (e) {
       debugPrint('Error: e');   // prints the error if unable to open the interface.
     }*/
+
   }
 
   @override
@@ -138,17 +165,43 @@ class _CartScreenState extends State<CartScreen> {
               itemCount: c.length,
             ),
           ),
-          Container(
-            padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.red)),
-            child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "Enter Coupon Code",
+          Row(
+            children: [
+              Container(
+                width: 328,
+                padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.red)),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: "Enter Coupon Code",
+                  ),
+                  controller: controller,
+                ),
               ),
-              controller: controller,
-            ),
+              TextButton(
+              onPressed: () async {
+                  var futCoupons = await fetchCoupons();
+                  var coupons = futCoupons.substring(2, futCoupons.length-2).replaceAll("\"", "").split(",");
+                  if(coupons.contains(controller.text.toUpperCase()) && await validateCoupons(controller.text))
+                  {
+                    String url = "http://192.168.0.105:9000/api/coupon/getCouponsDisc";
+                    final msg = jsonEncode({"couponId": controller.text});
+                    var response =
+                    await http.post(Uri.parse(url), headers: {"Content-Type": "application/json"}, body: msg);
+                    double disc = double.parse(response.body);
+                    setState(() {
+                      couponApplied = true;
+                      newsum = sum * (1-disc/100);
+                    });
+                    _showToastCorrect(context, "Coupon Applied Successfully!");
+                  }
+                  else
+                    _showToastCorrect(context, "Invalid Coupon :(");
+                },
+               child: Text("Validate", style: TextStyle(color: Colors.orange),))
+            ],
           ),
           Container(
             height: 80,
@@ -156,15 +209,23 @@ class _CartScreenState extends State<CartScreen> {
             child: Center(
               child: InkResponse(
                 onTap: () async {
-                  String str = "";
-                  for (int i = 0; i < len; i++) str += (c[i].name) + ",";
-                  // Check coupon code as well, change sum after it
-                  //openCheckout(str, sum);
-                  //if(controller.text) in coupons list apply coupon
-                  // String url = 'http://10.0.2.2:9000/api/coupon/getCoupons';
+                  if(couponApplied)
+                    {
+                      String url2 = "http://192.168.0.105:9000/api/coupon/checkout";
+                      final msg2 = jsonEncode({"userId": "amandakay34138", "couponId": controller.text});
+                      var response2 = await http.post(Uri.parse(url2), headers: {"Content-Type": "application/json"}, body: msg2);
+                      print(response2.body);
+                      if(response2.body == "completed")
+                        _showToastCorrect(context, "Order Successful with Coupon applied");
+                      else
+                        _showToastCorrect(context, "Order Failed");
+                    }
+                  else
+                    _showToastCorrect(context, "Order Successful");
+
                 },
                 child: Text(
-                  "Make Payment Rs." + sum.toString(),
+                  "Make Payment Rs." + (newsum == 0.0?sum.toString():newsum.toString()),
                 ),
               ),
             ),

@@ -16,12 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 //List<Product> cart = [];
 
-Future<void> fetchData() async {
-  String url = "http://172.20.10.3:9000/api/coupon/getCoupons";
-  final msg = jsonEncode({"userId": "amandakay14583"});
+Future<String> fetchCoupons() async {
+  String url = "http://192.168.0.105:9000/api/coupon/getCoupons";
+  final msg = jsonEncode({"userId": "amandakay34138"});
   var response =
       await http.post(Uri.parse(url), headers: {"Content-Type": "application/json"}, body: msg);
-  print(response.body);
+  //print(response.body);
+  return response.body;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void cartUp() async {
     setState(() {
       len++;
-      print(len);
+      //print(len);
     });
   }
 
@@ -207,9 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+List<String> coupons = [];
+
 class EmbededComponent extends StatelessWidget {
   // EmbededComponent({required this.bg,required this.text1});
-  final String code = "AXU21AZ3";
+  //final String code = "AXU21AZ3";
   void copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
   }
@@ -230,19 +233,18 @@ class EmbededComponent extends StatelessWidget {
     bool loaded = false;
     controller = StreamController<List>(
       onListen: () async {
-        String url = "http://172.20.10.3:9000/api/coupon/getCoupons";
-        final msg = jsonEncode({"userId": "amandakay14583"});
-        response = await http.post(Uri.parse(url),
-            headers: {"Content-Type": "application/json"}, body: msg);
-        print(response);
-        print(response.body);
+        var futCoupons = await fetchCoupons();
+        coupons = futCoupons.substring(2, futCoupons.length-2).replaceAll("\"", "").split(",");
+        print(coupons.length);
+        //print(response);
+        //print(response.body);
         // await Future<void>.delayed(const Duration(seconds: 1));
         // controller.add(1);
         // await Future<void>.delayed(const Duration(seconds: 1));
         // await controller.close();
       },
     );
-    return response.body;
+    return controller.stream;
   })();
 
   @override
@@ -255,11 +257,11 @@ class EmbededComponent extends StatelessWidget {
             height: 175,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (context, snapshot) {
+                itemCount: coupons.length,
+                itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      copyToClipboard(code);
+                      copyToClipboard(coupons[index]);
                       _showToastCorrect(context);
                     },
                     child: Container(
@@ -293,7 +295,7 @@ class EmbededComponent extends StatelessWidget {
                                     style: GoogleFonts.breeSerif(fontSize: 25, color: Colors.white),
                                   ),
                                   Text(
-                                    "Code: $code",
+                                    "Code: " + coupons[index],
                                     style: GoogleFonts.notoSerif(fontSize: 20, color: Colors.white),
                                   )
                                 ],
