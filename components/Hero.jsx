@@ -16,14 +16,14 @@ const Hero = () => {
       const data = await signIn(email, password);
       const db = getDatabase();
       // const newPostKey = push(child(ref(db), 'org')).key;
-      const postData = {
-        email: email,
-      };
-      const updates = {};
-      updates["org/" + email.split("@")[0]] = postData;
-      console.log(data);
+      // const postData = {
+      //   email: email,
+      // };
+      // const updates = {};
+      // updates["org/" + email.split("@")[0]] = postData;  //jinishshah08
+      // console.log(data);
       router.push("/home");
-      return update(ref(db), updates);
+      // return update(ref(db), updates);
     } catch (err) {
       if (err.code === "auth/wrong-password") {
         console.log("Wrong password");

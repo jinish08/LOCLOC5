@@ -38,7 +38,7 @@ const ConfirmCoupons = () => {
   const makeCoupons = () => {
     const couponD = couponData;
     const totalData = couponD
-    const postData = totalData?.name;
+    const postData = totalData?.code;
     userData?.map((item, index) => {
 
       const db = getDatabase();
@@ -120,7 +120,7 @@ const ConfirmCoupons = () => {
                 <h2 className="card-title text-2xl">
                   Information about your customized coupon!
                 </h2>
-                <p className="text-lg">Title: {couponData.name}</p>
+                <p className="text-lg">Title: {couponData.code}</p>
                 <p className="text-lg">Type: {couponData.couponType}</p>
                 <p className="text-lg">
                   Number of coupons generated: {couponData.couponCount}

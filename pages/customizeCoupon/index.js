@@ -42,12 +42,15 @@ const CustomizeCoupon = () => {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         setCcode(result)
-
+        const tempData = { ...userData }
+        tempData.code = result
+        setUserData(tempData)
     }
 
     useEffect(() => {
         setColor1(color.hex)
     }, [color])
+
 
     const submitCoupon = () => {
 
@@ -74,8 +77,8 @@ const CustomizeCoupon = () => {
                                 <div>
                                     <div style={{ backgroundColor: color1 }} className={`w-[302px] -mt-10 mx-2 h-[110px] rounded-[15px] shadow-gray-500 shadow-xl flex`}>
                                         <div className='w-[60%] text-white flex flex-col my-3  mx-3 justify-between'>
-                                            <div className='text-lg font-semibold'>{title}</div>
-                                            <div className='text-sm'>Code: {ccode}</div>
+                                            <div className='text-lg font-semibold'>{userData.title}</div>
+                                            <div className='text-sm'>Code: {userData.code}</div>
                                         </div>
                                         <div className='w-[40%]'>
                                             {imageUrls.length > 0 ? <img src={imageUrls[0]} alt="Group-1" border="0" className="w-[282px] h-[110px] rounded-[15px] rounded-tl-none rounded-bl-none" />
@@ -105,7 +108,7 @@ const CustomizeCoupon = () => {
                             <div className="form-control">
                                 <label className="input-group">
                                     <span>Title</span>
-                                    <input type="text" placeholder="info@site.com" className="input input-bordered" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+                                    <input type="text" placeholder="info@site.com" className="input input-bordered" name="title" value={userData.title} onChange={handleInputChange} />
                                 </label>
                             </div>
                             <div className="form-control">

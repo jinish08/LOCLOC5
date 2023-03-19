@@ -35,10 +35,6 @@ export const AuthContextProvider = ({ children }) => {
     image: "",
   });
 
-  useEffect(()=>{
-    console.log(userData)
-  },[userData])
-
 
   const [market, setMarket] = useState(["Mouse" ,"PhoneCase"]);
   const handleInputChange = (e) => {
@@ -48,6 +44,10 @@ export const AuthContextProvider = ({ children }) => {
       [name]: value,
     });
   };
+  
+  useEffect(()=>{
+    console.log(userData)
+},[userData])
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
