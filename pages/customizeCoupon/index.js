@@ -53,7 +53,6 @@ const CustomizeCoupon = () => {
 
 
     const submitCoupon = () => {
-
         router.push("/confirmCoupons")
     }
 

@@ -39,9 +39,9 @@ const ConfirmCoupons = () => {
     const couponD = couponData;
     const totalData = couponD
     const postData = totalData?.code;
+    const updates = {};
+    const db = getDatabase();
     userData?.map((item, index) => {
-
-      const db = getDatabase();
 
       const rule = {
         conditions: {
@@ -84,15 +84,15 @@ const ConfirmCoupons = () => {
       // const newPostKey = push(child(ref(db), 'org/'+user.email?.split('@')[0])).key;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
-      const updates = {};
+      
       
       updates['org/' + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/Coupons/" + item.CouponsLength] = postData;
       updates["org/" + user.email?.split('@')[0] + "/users/" + item.Username + item._key + "/CouponsLength"] = item.CouponsLength + 1
       updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/data"] = totalData
       updates["org/" + user.email?.split('@')[0] + "/Coupons/" + totalData?.code + "/userIdList"] = userKeys
 
-      if(userData?.length && userData.length > 0)update(ref(db), updates);
     });
+    update(ref(db), updates);
     router.push("/home");
   };
 

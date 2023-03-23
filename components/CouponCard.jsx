@@ -16,12 +16,12 @@ const styles = {
   heartIcon: `mr-2 p-2 border-2 border-[#e2e8f0] shadow-lg  rounded-2xl`,
   infoIcons: `flex items-center justify-center ml-2 `,
 };
-const CouponCard = () => {
+const CouponCard = ({couponCode,couponName}) => {
   return (
     <div className="bg-white w-64 h-60  rounded-xl shadow-xl flex flex-col items-start justify-between ">
       <div className="pl-4 mt-4">
-        <p className="text-xl ">Coupon Name</p>
-        <p className="text-md text-gray-400 italic">Coupon Code</p>
+        <p className="text-xl ">{couponName}</p>
+        <p className="text-md text-gray-400 italic">{couponCode}</p>
       </div>
 
       <div className={styles.information}>

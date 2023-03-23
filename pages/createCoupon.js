@@ -46,8 +46,8 @@ const CreateCoupon = () => {
               placeholder="Type here"
               className="input input-bordered input-success w-full mt-[2%]"
               onChange={handleInputChange}
-              name="name"
-              value={userData.name}
+              name="code"
+              value={userData.code}
             />
             <div className="dropdown">
               <label tabIndex={0} className="btn m-1">

@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import Coupon from "../components/Coupon";
 import CouponCard from "../components/CouponCard";
 import Navbar from "../components/Navbar";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { UserContext } from "../context/AuthContext";
 
-const home = () => {
+const Home = () => {
+
+  const [coupons, setCoupons] = useState([]);
+
+  const { user } = useContext(UserContext)
+
+  const readDataFromRealTimeDatabase = () => {
+    const db = getDatabase();
+    const starCountRef = ref(
+      db,
+      "org/" + user.email?.split("@")[0] + "/Coupons/"
+    );
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      // updateStarCount(postElement, data);
+      // console.log(data)
+      if(data === null){
+        return
+      }
+      setCoupons([...Object.values(data)])
+      
+    });
+  };
+
+  useEffect(() => {
+    readDataFromRealTimeDatabase();
+  }, []);
+  
+  console.log(coupons)
+
+
   return (
     <div className="h-screen">
       <Navbar />
@@ -14,15 +46,21 @@ const home = () => {
           Coupons
         </p>
         <div className="pt-[2%] flex items-center justify-center gap-8 flex-wrap w-[60vw]">
-          <Coupon />
-          <CouponCard />
-          <CouponCard />
-          <CouponCard />
-          <CouponCard />
+          <Coupon />{
+            coupons?.map((item, index) => {
+              return (
+                <CouponCard
+                  key={index}
+                  couponCode={item.data.code}
+                  couponName={item.data.title}
+                />
+              );
+            })
+          }
         </div>
       </div>
     </div>
   );
 };
 
-export default home;
+export default Home;
